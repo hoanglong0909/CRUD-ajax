@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"/>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="../../../resourt/customer.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.15.1/jquery.validate.min.js"></script>
+</head>
+<style>
+    h1 {
+        margin: 20px;
+        text-align: center;
+        font-weight: bold;
+    }
+
+    #btnCreateCustomer {
+        margin-top: 80px;
+    }
+
+    .modal-header {
+        marker-offset: auto;
+    }
+</style>
+<body>
+
+<!--new table List-->
+<h1>Create Customer</h1>
+<div class="container">
+    <div class="box-header">
+
+    </div>
+</div>
+<!--new table List-->
+<div class="container">
+    <div class="row">
+        <div class="col12">
+
+            <button type="button" class="btn btn-outline-primary updateCustomer"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
+                    onclick="loadAddnew()">
+                <i class="far fa-create"></i>
+                Create
+            </button>
+        </div>
+    </div>
+
+</div>
+<h1>Smartphone List</h1>
+<table id="smartphoneList" class="table table-hover">
+    <thead>
+    <tr>
+        <td><strong>ID</strong></td>
+        <td><strong>Name</strong></td>
+        <td><strong>Email</strong></td>
+        <td><strong>Phone</strong></td>
+        <td><strong>Address</strong></td>
+        <td><strong>Country</strong></td>
+        <td><strong>Option</strong></td>
+        <td><strong>Option</strong></td>
+<!--        <td><strong>Option</strong></td>-->
+    </tr>
+    </thead>
+    <tbody>
+    <th:block th:each="customer: ${customers}">
+        <tr th:id="'row'+${customer.id}">
+            <td th:text="${customer.id}"></td>
+            <td th:text="${customer.name}"></td>
+            <td th:text="${customer.email}"></td>
+            <td th:text="${customer.phone}"></td>
+            <td th:text="${customer.address}"></td>
+            <td th:text="${customer.country.name}"></td>
+            <td>
+                <button type="button" class="btn btn-outline-primary updateCustomer"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo"
+                        th:attr="onclick=|loadEditData('${customer.id}')|">
+                    <i class="far fa-edit"></i>
+                    Edit
+                </button>
+                <input type="hidden" id="id" th:value="${customer.id}">
+            </td>
+<!--            <td><a class="btn btn-outline-danger deleteCustomer" th:href="${customer.getId()}"><i-->
+<!--                    class="fas fa-trash-alt"></i>Delete</a></td>-->
+
+            <td><button class="btn btn-outline-danger"  th:attr="onclick=|deleteCustomer('${customer.id}',this)|" ><i
+                    class="fas fa-trash-alt"></i>Delete</button></td>
+        </tr>
+    </th:block>
+    </tbody>
+</table>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel"><span id="exampleModalLabelSpan"></span> </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="md-6">
+                        <label class="form-label">Name:</label>
+                        <input type="text" class="form-control" id="upName">
+                    </div>
+                    <div class="md-6">
+                        <label class="col-form-label">Email:</label>
+                        <input type="text" class="form-control" id="upEmail">
+                    </div>
+                    <div class="md-6">
+                        <label class="col-form-label">phone:</label>
+                        <input type="text" class="form-control" id="upPhone">
+                    </div>
+                    <div class="md-6">
+                        <label class="col-form-label">address:</label>
+                        <input type="text" class="form-control" id="upAddress">
+                    </div>
+                    <div class="md-6">
+                        <label>Country</label>
+                        <select class="form-control" name="upCountry" id="upCountry">
+                            <option value="">Choose country</option>
+                            <option th:each="p : ${countrys}"
+                                    th:value="${p.getId()}"
+                                    th:text="${p.getName()}">
+                            </option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary close-modal" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="editCustomer()">Save</button>
+                <input type="hidden" id="upId" name="upId">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+</html>
